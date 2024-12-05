@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel ="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+           <!-- hadchi Bootstrap + [th :thymeleaf ])-->
+  <div class="container mt-2">
+      <div class="card">
+          <div class ="card-header"> Liste von Patienten </div>
+          <div class ="card-body">
+              <form method="get" th:action="@{index}">
+                  <!-- pour faire La recherche-->
+                <label>key word</label>
+                  <input type="text" name="keyword" th:value="${keyword}">
+                <button type="submit" class="btn btn-primary">Suche</button>
+
+              </form>
+
+              <table class="table">  <!-- aussi class ici c est Bootstrap-->
+                  <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Nachname</th>
+                      <th>Geburtsdatum</th>
+                      <th>istKrank</th>
+                      <th>Ergebnis</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="p:${ListVonPatienten}">
+                      <td th:text="${p.getId()}">
+                      <td th:text="${p.getNachName()}">
+                      <td th:text="${p.getGeburtsdatum()}">
+                      <td th:text="${p.isIstkrank()}">
+                      <td th:text="${p.getErgebnis()}">
+                      <td>
+                      <a onclick="return confirm('Sicher ?')" class="btn btn-danger" th:href="@{löschen(id=${p.getId()} , keyword=${keyword} , page=${currentPage})}">
+                          Löschen</a>
+
+                      </td>
+                      <td>
+                          <a class="btn btn-success" th:href="@{editPatient(id=${p.getId()} , keyword=${keyword} , page=${currentPage})}">
+                              Bearbeiten</a>
+
+                      </td>
+                  </tr>
+                  </tbody>
+              </table>
+              <ul class=" nav nav-pills">
+                  <li th:each="seite,status:${Seiten}">
+                      <a th:class="${status.index==currentPage?'btn btn-info ms-1': 'btn btn-outline-info ms-1'}"
+                         th:text="${status.index}"
+                         th:href="@{index(seite=${status.index }, keyword= ${keyword})}"></a>
+
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

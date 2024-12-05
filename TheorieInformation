@@ -1,0 +1,130 @@
+-------------------------------- Thymeleaf --------------------------------------------------------
+
+-> Tout d'abord, nous avons créé nos packages Entities et Repositories.
+   Maintenant, nous allons nous concentrer sur la couche web en utilisant Thymeleaf
+
+-> Package Web , Création d'une vue basée sur [Thymeleaf]:
+
+   1) creer notre dossier resources/templates utilisant (HTML.file)
+   2) Ajoute du moteur de contrôle Thymeleaf declarant :
+      -> xmlns:th="http://www.thymeleaf.org"
+      -> est apres katzid dakchi li bghiti tables / Titre ...
+
+   3) On crée un class Controller nommé [PatientController]
+      -> On utilise L annotation (@Controller) , Notre Controller
+        a besoin D acceder a La Base de donnes on utilisant PatientRepositori
+
+
+---------------------------- Bootstrap ----------------------------------------------------
+
+->Le WebJar de Bootstrap contient tous les fichiers CSS et JavaScript
+  de la bibliothèque Bootstrap, une des bibliothèques les plus populaires
+  pour créer des interfaces web responsives.
+
+-> Comment L Utiliser ?
+   Dans Notre page Html (vue-Patienten.html) on va ajouter :
+  <link rel ="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+
+
+
+--------------------La Pagination=[Seiten erstellen [1 2 3 ..] ]-----------------------------------------
+
+-> public String patienten(Model model1 ,
+              @RequestParam(name = "seite" , defaultValue = "0") int seite,
+              @RequestParam(name = "size" , defaultValue = "5")  int size){
+   int page :  quel page , par defaut la page 0 qui doit afficher
+   int size : size de la page , combien des element doit contient par defaut 5
+              (wach 5 ola 10 ola 20 ....)
+ }
+
+List<Patient> patienten = patientReposi.findAll();
+
+
+
+------------------------- Thymeleaf Layout Dialect -----------------------------
+-> Elle permet de gérer facilement les mises en page (layouts)
+   dans une application web Java
+
+-> Les etapes 5 etapes principales d utilser un Lyout deja prepare:
+
+   0) ajouter Dependency Thymeleaf Layout Dialect dans pom.xml
+   1) creation Html File [Template1]
+   2) ajouter deux name spaces dans Html: xmlns:th="http://www.thymeleaf.org"
+                                          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   3) navbar bootstrap 5 w3schools
+   4) copier le code et coller dans body dans fichier Html
+   5) Ajouter bootstrap.min.css et bootstrap.bundle.min.js
+     -><link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css" />
+     -><script src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+   *) Maintnent Ajouter des chose par exemple fragment [des sections on vous souite maitre des contenus]
+     -><section layout:fragment="content1">
+           <!-- Contenu spécifique ici -->
+       </section>
+
+
+
+------------------------  Utiliser Template1 que tu as déjà préparé dans des applications --------------------------------------------------------------------------
+
+  1) Aller a Fichier Html que tu veux , dans Notre Exemple[vue-patienten.html]
+  2) Ajouter ca on disant que [vue-patienten.html] on veus le decourer avec Template1.html:
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="Template1"
+
+    -> Donc Il va afficher le decord de Template1 , et apres il va cherecher dans notre Page Template1
+       (Le contenu qui va inserer dans content1)
+     -C est pou ca il est mieux d jouter un (layout:fragment) dans [vue-patienten.html] fait comme un laison
+     <div layout:fragment="content1"></div>
+
+
+
+-------------------------- La Validation --------------------------------------------------
+
+-> Les etapes:
+   1) Ajouter dependency Spring Boot Validation Maven dans pom.xml
+      -Spring Boot Starter Validation dependency
+
+   2) Ajouter les annotations:
+     -@NotEmpty
+     -@DecimalMin("100") : weniger als 100 Verbot
+     - etc
+
+   3) Aller a ton Controller Class et ajouter aux Parametre ces deux Annotations
+     - L annotation @Valid
+     - BindingResult bindingResultEror : l'objet BindingResult est utilisé pour capturer
+       et stocker les erreurs de validation qui peuvent
+       survenir lors de la soumission d'un formulaire
+
+
+    par exemple :
+    public String save( @Valid @ModelAttribute("patientobjT") Patient patient ,
+                        BindingResult bindingResult)
+
+    if(bindingResult.hasErrors()){
+                return "vue-FormPatienten";
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

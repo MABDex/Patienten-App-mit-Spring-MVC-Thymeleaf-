@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template1">
+<head>
+    <meta charset="UTF-8">
+    <title>EditPatient</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-6 offset-3" >
+
+        <form method="post" th:action="@{save(page=${page}, keyword=${keyword}, id=${patientobjEdit.id})}">
+
+        <div>
+            <label>ID</label>
+            <input type="hidden" name="id" th:value="${patientobjEdit.id}" />
+
+        </div>
+        <div>
+            <label>Nachname</label>
+            <input class="form-control" type="text" name="nachName" th:value="${patientobjEdit.nachName}">
+            <span class="text-danger" th:errors="${patientobjEdit.nachName}"></span>
+        </div>
+        <div>
+            <label>Geburtsdatum</label>
+            <input class="form-control" type="date" name="geburtsdatum" th:value="${patientobjEdit.geburtsdatum}">
+            <span  class="text-danger" th:errors="${patientobjEdit.geburtsdatum}"></span>
+        </div>
+        <div>
+            <label>Ist krank</label>
+            <input type="checkbox" name="istkrank" th:checked="${patientobjEdit.istkrank}">
+            <span class="text-danger" th:errors="${patientobjEdit.istkrank}"></span>
+        </div>
+        <div>
+            <label>Ergebnis</label>
+            <input type="text" name="ergebnis" th:value="${patientobjEdit.ergebnis}">
+            <span class="text-danger" th:errors="${patientobjEdit.ergebnis}"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Speichern</button>
+    </form>
+    </div>
+</div>
+</body>
+</html>
